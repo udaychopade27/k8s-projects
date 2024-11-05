@@ -35,18 +35,18 @@ spec:
             configMapKeyRef:
               name: mongo-configmap
               key: database-url
-# ---
+---
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: mongo-express-service
-# spec:
-#   selector:
-#     app: mongo-express
-#   type: LoadBalancer       # this is type external service 
-#   ports:
-#     - protocol: TCP
-#       port: 8081
-#       targetPort: 8081
-#       nodePort: 30000      # this is the port where the external ip adress is exposed
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-express-service
+spec:
+  selector:
+    app: mongo-express
+  type: LoadBalancer       # this is type external service 
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30000      # this is the port where the external ip adress is exposed
