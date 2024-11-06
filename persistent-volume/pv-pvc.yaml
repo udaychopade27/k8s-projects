@@ -17,7 +17,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mongodb-pvc
 spec:
-  storageClassName: ""
+  storageClassName: "standard"
   accessModes:
     - ReadWriteOnce
   resources:

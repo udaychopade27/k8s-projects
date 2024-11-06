@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
+  namespace: three-tier
   name: mongodb
 spec: 
   replicas: 1
@@ -13,7 +14,7 @@ spec:
         app: mongodb
     spec: 
       containers:
-      - name: mongo
+      - name: mon
         image: mongo:4.4.6
         command:
             - "numactl"
@@ -29,24 +30,17 @@ spec:
           - name: MONGO_INITDB_ROOT_USERNAME
             valueFrom:
               secretKeyRef:
-                name: nodeapp-secret
+                name: mongo-sec
                 key: username
           - name: MONGO_INITDB_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: nodeapp-secret
+                name: mongo-sec
                 key: password
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongo-service
-spec:
-  selector:
-    app: mongodb
-  ports:
-    - protocol: TCP
-      port: 27017
-      targetPort: 27017
+        volumeMounts:
+          - name: mongo-volume
+            mountPath: /data/db
+      volumes: 
+      - name: mongo-volume
+        persistentVolumeClaim:
+          claimName: mongo-volume-claim

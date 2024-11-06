@@ -1,51 +1,57 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: nodeapp-deployment
-  labels:
-    app: app
-spec:
-  replicas: 1
-  selector:
+metadata: 
+  name: api
+  namespace: three-tier
+  labels: 
+    role: api
+    env: demo
+spec: 
+  replicas: 2
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector: 
     matchLabels:
-      app: app
+      role: api
   template:
     metadata:
       labels:
-        app: app
+        role: api
     spec:
+      imagePullSecrets:
+      - name: ecr-registry-secret
       containers:
-      - name: nodeapp
-        image: uday27/k8s-cluster-app:latest
-        ports:
-        - containerPort: 3000
+      - name: api
+        image: uday27/k8s-cluster-app:1.2
+        imagePullPolicy: Always
         env:
           - name: MONGO_CONN_STR
-            value: mongodb://mongo-service:27017/todo?directConnection=true
+            value: mongodb://mongodb-svc:27017/todo?directConnection=true
           - name: MONGO_USERNAME
             valueFrom:
               secretKeyRef:
-                name: nodeapp-secret
+                name: mongo-sec
                 key: username
           - name: MONGO_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: nodeapp-secret
+                name: mongo-sec
                 key: password
-
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: nodeapp-service
-spec:
-  selector:
-    app: app
-  type: LoadBalancer 
-  ports:
-    - protocol: TCP
-      port: 3000
-      targetPort: 3000
-      nodePort: 30000
+        ports:
+        - containerPort: 3500
+        livenessProbe: 
+          httpGet:
+            path: /ok
+            port: 3500
+          initialDelaySeconds: 2
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ok
+            port: 3500
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
