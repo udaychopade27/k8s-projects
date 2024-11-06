@@ -9,7 +9,9 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: /data/mongodb
+
 ---
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

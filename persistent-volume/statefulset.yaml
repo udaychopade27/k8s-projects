@@ -4,7 +4,7 @@ metadata:
   name: mongodb # Specifies the name of the statefulset
 spec:
   serviceName: "mongodb-service" # Specifies the service to use
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: mongodb

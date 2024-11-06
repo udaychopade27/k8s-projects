@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp-deployment
+  labels:
+    app: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: nodeapp
+        image: uday27/k8s-cluster-app:latest
+        ports:
+        - containerPort: 3000
+        env:
+          - name: MONGO_CONN_STR
+            value: mongodb://mongo-service:27017/todo?directConnection=true
+          - name: MONGO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: nodeapp-secret
+                key: username
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: nodeapp-secret
+                key: password
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeapp-service
+spec:
+  selector:
+    app: app
+  type: LoadBalancer 
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
