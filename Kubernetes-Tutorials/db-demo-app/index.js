@@ -4,9 +4,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const mongoHOST = process.env.MONGO_HOST || 'localhost';
+const mongoPORT = process.env.MONGO_PORT || '27017';
 // Connect to MongoDB
-mongoose.connect('mongodb://mongo:27017/email', {
+mongoose.connect(`mongodb://${mongoHOST}:${mongoPORT}/email`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

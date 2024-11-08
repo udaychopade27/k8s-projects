@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: uday27/db-demo-app:01
+        ports:
+        - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-demo-app-service
+spec: 
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: node-app
+  type: LoadBalancer

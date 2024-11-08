@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodedb-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodedb-app
+  template:
+    metadata:
+      labels:
+        app: nodedb-app
+    spec:
+      containers:
+      - name: nodedb-app
+        image: uday27/nodedb-mongo-app:01
+        ports:
+        - containerPort: 3000
+      - name: mongodb
+        image: mongo
