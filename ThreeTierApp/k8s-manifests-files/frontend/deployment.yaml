@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: three-tier-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: three-tier-frontend
+  template:
+    metadata:
+      labels:
+        app: three-tier-frontend
+    spec:
+      containers:
+      - name: three-tier-frontend
+        image: uday27/three-tier-frontend:01
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REACT_APP_BACKEND_URL
+          value: "three-tier-backend-service.default.svc.cluster.local:3500/api/tasks"      
+      
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: three-tier-frontend-service
+spec: 
+  ports:
+    - name: http
+      port: 3501
+      targetPort: 3000
+  selector:
+    app: three-tier-frontend
+  type: LoadBalancer

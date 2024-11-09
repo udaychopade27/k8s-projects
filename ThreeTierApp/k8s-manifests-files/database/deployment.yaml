@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:latest
+        env: 
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: password
+          - name: MONGO_INITDB_DATABASE
+            value: "notes"
+
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongo-vol
+      volumes:
+        - name: mongo-vol
+          persistentVolumeClaim:
+            claimName: three-tier-mongo-pvc
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-three-tier-service
+spec: 
+  ports:
+    - name: tcp
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: mongo
