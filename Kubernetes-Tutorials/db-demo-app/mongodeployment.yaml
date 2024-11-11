@@ -17,6 +17,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27017
+<<<<<<< HEAD
         volumeMounts:
           - mountPath: /data/db
             name: mongo-vol
@@ -25,6 +26,19 @@ spec:
           persistentVolumeClaim:
             claimName: nodeapp-mongo-pvc
 
+=======
+        env: 
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: password
+>>>>>>> da8b220843663daf099cdae281f7df01fe53e203
 
 ---
 

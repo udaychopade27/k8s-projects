@@ -16,16 +16,18 @@ spec:
       - name: nodedb-app
         image: uday27/nodedb-mongo-app:04
         env:
-          - name: MONGO_HOST
+          - name: MONGO_CONN_STR
+            value: mongodb://mongo-nodeapp-service:27017/todo?directConnection=true
+          - name: MONGO_USERNAME
             valueFrom:
-              configMapKeyRef:
-                name: nodedb-app-configmap
-                key: MONGO_HOST
-          - name: MONGO_PORT
+              secretKeyRef:
+                name: mongo-sec
+                key: username
+          - name: MONGO_PASSWORD
             valueFrom:
-              configMapKeyRef:
-                name: nodedb-app-configmap
-                key: MONGO_PORT
+              secretKeyRef:
+                name: mongo-sec
+                key: password
         ports:
         - containerPort: 3000
       
