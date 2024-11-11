@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: three-tier-frontend
-        image: uday27/three-tier-frontend:01
+        image: uday27/three-tier-frontend:04
         ports:
         - containerPort: 3000
         env:
         - name: REACT_APP_BACKEND_URL
-          value: "three-tier-backend-service.default.svc.cluster.local:3500/api/tasks"      
+          value: "http://three-tier-backend-service.default.svc.cluster.local:3500/api/tasks"      
       
 
 ---

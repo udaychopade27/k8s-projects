@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: three-tier-app-configmap
 data:
-  REACT_APP_BACKEND_URL: "three-tier-backend-service.default.svc.cluster.local:3500/api/tasks"
+  REACT_APP_BACKEND_URL: "http://three-tier-backend-service.default.svc.cluster.local:3500/api/tasks"
