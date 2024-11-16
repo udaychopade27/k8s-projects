@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
       - name: three-tier-backend
-        image: uday27/three-tier-backend:04
+        image: threetierbackend:node
         env:
           - name: MONGO_URI
-            value: mongodb://admin:password123@mongo-three-tier-service.default.svc.cluster.local:27017/todo
+            value: mongodb://admin:password123@mongo-three-tier-service.default.svc.cluster.local:27017/
           - name: MONGO_USERNAME 
             valueFrom:
               secretKeyRef:

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: three-tier-frontend
-        image: uday27/three-tier-frontend:04
+        image: threetierfrontend:reactjs
         ports:
         - containerPort: 3000
         env:

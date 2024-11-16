@@ -15,6 +15,13 @@ spec:
       containers:
       - name: mongo
         image: mongo:latest
+        resources:
+      requests:
+        memory: "256Mi"
+        cpu: "500m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
         env: 
           - name: MONGO_INITDB_ROOT_USERNAME
             valueFrom:
@@ -48,8 +55,8 @@ metadata:
   name: mongo-three-tier-service
 spec: 
   ports:
-    - name: tcp
-      port: 27017
+    - name: http
+      port: 2003
       targetPort: 27017
   selector:
     app: mongo
