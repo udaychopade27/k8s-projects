@@ -8,6 +8,9 @@ class App extends Tasks {
 
     render() {
         const { tasks, currentTask } = this.state;
+        const handleSubmitButton =(data)=>{
+console.log("data",data)
+        }
         return (
             <div className="app">
                 <header className="app-header">
@@ -15,7 +18,7 @@ class App extends Tasks {
                 </header>
                 <div className="main-content">
                     <Paper elevation={3} className="todo-container">
-                        <form onSubmit={this.handleSubmit} className="task-form">
+                        <form onSubmit={handleSubmitButton} className="task-form">
                             <TextField
                                 variant="outlined"
                                 size="small"

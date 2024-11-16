@@ -15,9 +15,18 @@ spec:
       containers:
       - name: three-tier-backend
         image: threetierbackend:node
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         env:
+          - name: PORT
+            value: "3500"
           - name: MONGO_URI
-            value: mongodb://admin:password123@mongo-three-tier-service.default.svc.cluster.local:27017/
+            value: mongodb://admin:password123@mongo-three-tier-service.default.svc.cluster.local:2003/
           - name: MONGO_USERNAME 
             valueFrom:
               secretKeyRef:
