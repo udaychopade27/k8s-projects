@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: notes-app-deployment
+  namespace: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notes-app
+  template:
+    metadata:
+      labels:
+        app: notes-app
+    spec:
+      containers:
+      - name: notes-app
+        image: trainwithshubham/notes-app-k8s
+        ports:
+        - containerPort: 8000
+      #   volumeMounts:
+      #   - mountPath: /var/www/html
+      #     name: my-volume
+      # volumes:
+      # - name: my-volume
+      #   persistentVolumeClaim:
+      #     claimName: local-pvc
+      
